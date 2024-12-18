@@ -79,28 +79,28 @@ export default function AdminPage() {
     useEffect(() => {
         fetchBooks();
     }, []);
-    const deleteBook = async (id: string) => {
-        await fetch(`/api/books/${id}`, {
-            method: 'DELETE',
-        });
-        fetchBooks();
-    };
-    const updateBook = async (book: Book) => {
-        await fetch(`/api/books/${book._id}`, {
-            method: 'PUT',
-            body: JSON.stringify({
-                title: 'Updated Book',
-                author: 'John Doe',
-                description: 'A new book',
-                price: 9.99,
-                stock: 10,
-                image: 'https://via.placeholder.com/150',
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-    }
+    // const deleteBook = async (id: string) => {
+    //     await fetch(`/api/books/${id}`, {
+    //         method: 'DELETE',
+    //     });
+    //     fetchBooks();
+    // };
+    // const updateBook = async (book: Book) => {
+    //     await fetch(`/api/books/${book._id}`, {
+    //         method: 'PUT',
+    //         body: JSON.stringify({
+    //             title: 'Updated Book',
+    //             author: 'John Doe',
+    //             description: 'A new book',
+    //             price: 9.99,
+    //             stock: 10,
+    //             image: 'https://via.placeholder.com/150',
+    //         }),
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         }
+    //     })
+    // }
     return (
         <section className="py-10 text-center">
             <h2 className="text-3xl font-bold mb-6 text-gray-800">View All Categories</h2>

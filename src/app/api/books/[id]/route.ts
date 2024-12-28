@@ -21,15 +21,16 @@ export async function GET(req: Request) {
 }
 export async function PUT(req: Request) {
   try {
+    const id = req.url.split("/").reverse()[0];
     const data = await req.json();
 
-    if (!data.id) {
+    if (!id) {
       return NextResponse.json({ error: "Missing book ID" }, { status: 400 });
     }
 
     await connectToDatabase();
 
-    const updatedBook = await Book.findByIdAndUpdate(data.id, data, {
+    const updatedBook = await Book.findByIdAndUpdate(id, data, {
       new: true,
     });
 

@@ -35,7 +35,12 @@ export default function AddOrUpdateBook({
     setLoading(true);
     setMessage("");
     try {
-      const response = await onSubmit(formData);
+      const url = isUpdate ? `/api/books/${initialData._id}` : "/api/books";
+      const response = await fetch(url, {
+        method: isUpdate ? "PUT" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
       if (response.ok) {
         setMessage(`${isUpdate ? "Book updated" : "Book added"} successfully!`);
         if (!isUpdate) {

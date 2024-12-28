@@ -49,37 +49,6 @@ export default function BookCard({ book, isAdmin = false }) {
     toast.success("Book added to cart successfully!");
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const response = await onSubmit(formData);
-      if (response.ok) {
-        toast.success(
-          `${isUpdate ? "Book updated" : "Book added"} successfully!`
-        );
-        if (!isUpdate) {
-          setFormData({
-            title: "",
-            category: "",
-            language: "",
-            author: "",
-            description: "",
-            price: "",
-            stock: "",
-            image: "",
-          });
-        }
-      } else {
-        toast.error(`Failed to ${isUpdate ? "update" : "add"} book.`);
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("An error occurred. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
   return (
     <Card
       variant="ghost"
@@ -110,7 +79,6 @@ export default function BookCard({ book, isAdmin = false }) {
               <AddOrUpdateBook
                 isUpdate={true}
                 initialData={book}
-                onSubmit={handleSubmit}
               />
               <Button variant="danger" onClick={() => handleDelete(book._id)}>
                 Delete

@@ -35,9 +35,6 @@ export default function Navbar() {
         <Link href="/contact" className="text-gray-700 hover:text-orange-600">
           Contact
         </Link>
-        <Link href="/admin" className="text-gray-700 hover:text-orange-600">
-          Admin Panel
-        </Link>
         <FaCartPlus className="text-gray-700 hover:text-orange-600 cursor-pointer" />
       </div>
 

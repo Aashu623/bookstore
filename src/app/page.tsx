@@ -109,11 +109,6 @@ export default function Home() {
           ))}
         </Grid>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-orange-700 text-white text-center py-4">
-        <p>&copy; 2024 BookShelf. All Rights Reserved.</p>
-      </footer>
     </div>
   );
 }

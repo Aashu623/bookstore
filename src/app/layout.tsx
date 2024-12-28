@@ -5,6 +5,7 @@ import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import { Toaster } from "react-hot-toast";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 
 const geistSans = Geist({
@@ -36,6 +37,7 @@ export default function RootLayout({
           <Toaster position="top-right" />
           <Navbar />
           {children}
+          <Footer />
         </Theme>
       </body>
     </html>

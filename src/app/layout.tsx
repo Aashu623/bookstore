@@ -4,6 +4,8 @@ import "./globals.css";
 import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import { Toaster } from "react-hot-toast";
+import Navbar from "@/components/Navbar";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +33,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
       >
         <Theme>
-          <Toaster position="top-right"/>
+          <Toaster position="top-right" />
+          <Navbar />
           {children}
         </Theme>
       </body>

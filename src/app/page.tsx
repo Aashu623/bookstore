@@ -8,7 +8,6 @@ import { FaThumbsUp } from "react-icons/fa6";
 import { SiTicktick } from "react-icons/si";
 import { Button, Grid } from "@radix-ui/themes";
 import BookCard from "@/components/BookCard";
-import Navbar from "@/components/Navbar";
 
 
 
@@ -34,8 +33,6 @@ export default function Home() {
   }, []);
   return (
     <div className="bg-gray-100 text-gray-800">
-      {/* Navbar */}
-      <Navbar />
 
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-orange-100 to-white p-10 text-center">

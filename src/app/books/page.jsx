@@ -19,7 +19,6 @@ export default function BooksPage() {
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
-      <Navbar />
       <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
         All books
       </h1>

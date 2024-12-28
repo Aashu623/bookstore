@@ -4,6 +4,7 @@ import * as Label from "@radix-ui/react-label";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Button, Spinner } from "@radix-ui/themes";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function AddOrUpdateBook({
   isUpdate = false,
@@ -21,7 +22,6 @@ export default function AddOrUpdateBook({
   });
 
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
 
   // Handle input change
   const handleChange = (e) => {
@@ -33,7 +33,6 @@ export default function AddOrUpdateBook({
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage("");
     try {
       const url = isUpdate ? `/api/books/${initialData._id}` : "/api/books";
       const response = await fetch(url, {
@@ -42,7 +41,7 @@ export default function AddOrUpdateBook({
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        setMessage(`${isUpdate ? "Book updated" : "Book added"} successfully!`);
+        toast.success(`${isUpdate ? "Book updated" : "Book added"} successfully!`);
         if (!isUpdate) {
           setFormData({
             title: "",
@@ -56,13 +55,14 @@ export default function AddOrUpdateBook({
           });
         }
       } else {
-        setMessage(`Failed to ${isUpdate ? "update" : "add"} book.`);
+        toast.error(`Failed to ${isUpdate ? "update" : "add"} book.`);
       }
     } catch (error) {
       console.error(error);
-      setMessage("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
     } finally {
       setLoading(false);
+      window.location.reload();
     }
   };
 
@@ -79,9 +79,6 @@ export default function AddOrUpdateBook({
           <Dialog.Title className="text-2xl font-bold mb-4 text-orange-600">
             {isUpdate ? "Update Book" : "Add a New Book"}
           </Dialog.Title>
-          {message && (
-            <div className="mb-4 text-green-600 font-medium">{message}</div>
-          )}
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
             {[
               { label: "Title", name: "title", type: "text", required: true },

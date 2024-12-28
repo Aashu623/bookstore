@@ -70,7 +70,7 @@ const PurchasePage = () => {
         toast.error(data.error);
       } else {
         toast.success("Order placed successfully!");
-        router.push(`/orders/${data.orderNumber}`);
+        router.push(`/track-order/${data.orderNumber}`);
       }
     } catch (error) {
       toast.error("An error occurred while placing the order.");

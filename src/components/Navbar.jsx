@@ -44,7 +44,7 @@ export default function Navbar() {
       {/* Mobile Dropdown Menu */}
       <Popover.Root>
         <Popover.Trigger asChild>
-          <button className="sm:hidden p-2 rounded-md text-gray-700 hover:text-orange-600">
+          <button className="sm:hidden p-2 rounded-md text-gray-700 hover:text-orange-600 text-lg">
             ☰
           </button>
         </Popover.Trigger>
@@ -72,10 +72,9 @@ export default function Navbar() {
             >
               Contact
             </Link>
-            <Link href="/admin" className="text-gray-700 hover:text-orange-600">
-              Admin Panel
+            <Link href="/cart" className="text-gray-700 hover:text-orange-600">
+              <FaCartPlus />
             </Link>
-            <FaCartPlus className="text-gray-700 hover:text-orange-600 cursor-pointer" />
           </div>
         </Popover.Content>
       </Popover.Root>

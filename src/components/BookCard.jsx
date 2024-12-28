@@ -94,14 +94,14 @@ export default function BookCard({ book, isAdmin = false }) {
       </Box>
 
       <Flex direction="column" align="center" gap="2" className="mt-4 w-full">
-        <Text size="lg" weight="bold" truncate>
+        <Text size="4" weight="bold" truncate>
           {book.title}
         </Text>
-        <Text size="sm" color="gray">
+        <Text size="3" color="gray">
           by {book.author}
         </Text>
-        <Text size="lg" weight="bold" color="black">
-          ${book.price}
+        <Text size="2" weight="bold" color="black">
+          Rs.{" "}{book.price}
         </Text>
 
         <Flex gap="2" className="mt-4">

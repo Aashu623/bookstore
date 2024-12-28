@@ -3,7 +3,12 @@
 import React from "react";
 import { Flex, Box, Button, Text } from "@radix-ui/themes";
 
-const OrderCard = ({ order, onUpdateStatus, onDeleteOrder, isAdmin }) => {
+const OrderCard = ({
+  order,
+  onUpdateStatus,
+  onDeleteOrder,
+  isAdmin = false,
+}) => {
   return (
     <Flex
       direction={"column"}
@@ -27,29 +32,30 @@ const OrderCard = ({ order, onUpdateStatus, onDeleteOrder, isAdmin }) => {
           Book: {order.book.title} by {order.book.author}
         </Text>
         <Text size="md" className="mt-2">
-          Price: ${order.book.price}
+          Price: Rs{" "}{order.book.price}
         </Text>
       </Flex>
 
-      {/* Action Buttons */}
-      <Flex gap="3" justify="end">
-        <Button
-          size="lg"
-          variant="soft"
-          color="green"
-          onClick={() => onUpdateStatus(order.orderNumber, "Completed")}
-        >
-          Mark as Completed
-        </Button>
-        <Button
-          size="lg"
-          variant="soft"
-          color="red"
-          onClick={() => onDeleteOrder(order.orderNumber)}
-        >
-          Delete Order
-        </Button>
-      </Flex>
+      {isAdmin && (
+        <Flex gap="3" justify="end">
+          <Button
+            size="lg"
+            variant="soft"
+            color="green"
+            onClick={() => onUpdateStatus(order.orderNumber, "Completed")}
+          >
+            Mark as Completed
+          </Button>
+          <Button
+            size="lg"
+            variant="soft"
+            color="red"
+            onClick={() => onDeleteOrder(order.orderNumber)}
+          >
+            Delete Order
+          </Button>
+        </Flex>
+      )}
     </Flex>
   );
 };

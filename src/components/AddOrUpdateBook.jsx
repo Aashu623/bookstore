@@ -81,7 +81,7 @@ export default function AddOrUpdateBook({
           <Dialog.Title className="text-2xl font-bold mb-4 text-orange-600">
             {isUpdate ? "Update Book" : "Add a New Book"}
           </Dialog.Title>
-          <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
               { label: "Title", name: "title", type: "text", required: true },
               {

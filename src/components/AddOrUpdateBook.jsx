@@ -41,7 +41,9 @@ export default function AddOrUpdateBook({
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        toast.success(`${isUpdate ? "Book updated" : "Book added"} successfully!`);
+        toast.success(
+          `${isUpdate ? "Book updated" : "Book added"} successfully!`
+        );
         if (!isUpdate) {
           setFormData({
             title: "",
@@ -141,20 +143,18 @@ export default function AddOrUpdateBook({
             </div>
             <Button
               type="submit"
+              color="orange"
+              variant="soft"
               disabled={loading}
-              className="bg-orange-600 text-white py-2 px-4 rounded hover:bg-orange-700 disabled:opacity-50"
             >
               {loading ? <Spinner /> : isUpdate ? "Update Book" : "Add Book"}
             </Button>
+            <Dialog.Close>
+              <Button variant="soft" color="gray">
+                Cancel
+              </Button>
+            </Dialog.Close>
           </form>
-          <Dialog.Close asChild>
-            <Button
-              aria-label="Close"
-              className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
-            >
-              ✕
-            </Button>
-          </Dialog.Close>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

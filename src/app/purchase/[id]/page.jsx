@@ -18,7 +18,7 @@ const PurchasePage = () => {
     paymentMethod: "",
   });
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false); // State to control the dialog visibility
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -46,10 +46,9 @@ const PurchasePage = () => {
   };
 
   const handleConfirmPurchase = async () => {
-    setIsDialogOpen(false); // Close dialog on confirmation
+    setIsDialogOpen(false);
     toast.success("Your purchase is being processed.");
 
-    // Prepare order details
     const orderData = {
       user: customerDetails,
       book,
@@ -57,7 +56,6 @@ const PurchasePage = () => {
     };
 
     try {
-      // Call the API to create the order
       const response = await fetch("/api/orders", {
         method: "POST",
         body: JSON.stringify(orderData),
@@ -72,7 +70,7 @@ const PurchasePage = () => {
         toast.error(data.error);
       } else {
         toast.success("Order placed successfully!");
-        router.push(`/orders/${data.orderNumber}`); // Redirect to order tracking page
+        router.push(`/orders/${data.orderNumber}`);
       }
     } catch (error) {
       toast.error("An error occurred while placing the order.");
@@ -81,11 +79,10 @@ const PurchasePage = () => {
 
   if (!book) return <div>Loading...</div>;
 
-  // Generate a payment URL for QR Code (you can replace this with a real payment URL)
   const paymentUrl = `https://paymentgateway.com/pay?amount=${book.price}&book=${book.title}`;
 
   return (
-    <Flex gap="4" className="container mx-auto my-6">
+    <Flex gap="4" className="container mx-auto my-6" wrap={"wrap"}>
       {/* Left Section: Book Details */}
       <Box className="w-1/2">
         <Card className="p-4 shadow-md bg-gray-100">
@@ -106,7 +103,6 @@ const PurchasePage = () => {
         </Card>
       </Box>
 
-      {/* Right Section: Customer Details Form */}
       <Box className="w-1/2">
         <Card className="p-4 shadow-md bg-gray-100">
           <form onSubmit={handleSubmit}>
@@ -156,7 +152,6 @@ const PurchasePage = () => {
         </Card>
       </Box>
 
-      {/* Payment QR Code Section */}
       <Box className="w-full mt-4">
         <Card className="p-4 shadow-md bg-gray-100 text-center">
           <Text size="lg" weight="bold" className="mb-4">

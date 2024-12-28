@@ -50,19 +50,18 @@ export default function BookCard({ book, isAdmin = false }) {
   };
 
   return (
-    <Card
-      variant="ghost"
-      className="max-w-sm w-full border flex flex-col items-center p-4 shadow-md hover:shadow-lg bg-gray-100"
+    <Flex
+      className="max-w-sm w-full border flex flex-col items-center shadow-md hover:shadow-lg bg-gray-100 rounded-sm py-4"
     >
       <Box className="h-48 w-full">
         <img
           src={book.image}
           alt={book.title}
-          className="h-full w-full object-contain rounded-lg"
+          className="h-full w-full object-contain hover:scale-105 transition-all ease-in-out rounded-lg"
         />
       </Box>
 
-      <Flex direction="column" align="center" gap="2" className="mt-4 w-full">
+      <Flex direction="column" align="center" gap="1" className="mt-4 w-full">
         <Text size="4" weight="bold" truncate>
           {book.title}
         </Text>
@@ -96,6 +95,6 @@ export default function BookCard({ book, isAdmin = false }) {
           )}
         </Flex>
       </Flex>
-    </Card>
+    </Flex>
   );
 }

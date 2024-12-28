@@ -30,7 +30,7 @@ export default function AdminPage() {
     return (
         <section className="py-10 text-center">
             <Text size={"3"} weight={"bold"} className="mb-6 text-gray-800">Admin - Manage Books</Text>
-            <Grid columns={{ xs: "2", sm: "3", md: "4", lg: "5", xl: "6" }} gap={"6"}>
+            <Grid columns={{ xs: "2", sm: "3", md: "4", lg: "5", xl: "6" }} gap={"6"} p={"6"}>
                 {books.map((book) => (
                     <Flex direction="column" key={book._id}>
                         <BookCard

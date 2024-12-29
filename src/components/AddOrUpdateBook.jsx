@@ -77,23 +77,28 @@ export default function AddOrUpdateBook({
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="bg-black/50 fixed inset-0" />
-        <Dialog.Content className="bg-white rounded-lg shadow-lg p-6 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-lg">
+        <Dialog.Content className="bg-white rounded-lg shadow-lg p-6 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-screen max-h-screen overflow-auto">
           <Dialog.Title className="text-2xl font-bold mb-4 text-orange-600">
             {isUpdate ? "Update Book" : "Add a New Book"}
           </Dialog.Title>
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <form
+            onSubmit={handleSubmit}
+            className="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-4"
+          >
             {[
               { label: "Title", name: "title", type: "text", required: true },
               {
                 label: "Category",
                 name: "category",
-                type: "text",
+                type: "select",
+                options: ["Novel", "MPPSC", "SSC", "UGCNET", "Stationary", "Other"],
                 required: true,
               },
               {
                 label: "Language",
                 name: "language",
-                type: "text",
+                type: "select",
+                options: ["English", "Hindi"],
                 required: true,
               },
               { label: "Author", name: "author", type: "text", required: true },
@@ -104,18 +109,37 @@ export default function AddOrUpdateBook({
                 <Label.Root className="block text-gray-700 font-medium">
                   {field.label}
                 </Label.Root>
-                <input
-                  type={field.type}
-                  name={field.name}
-                  value={formData[field.name]}
-                  onChange={handleChange}
-                  placeholder={`Enter ${field.label.toLowerCase()}`}
-                  required={field.required}
-                  className="mt-1 w-full border border-gray-300 p-2 rounded-md focus:outline-orange-600"
-                />
+                {field.type === "select" ? (
+                  <select
+                    name={field.name}
+                    value={formData[field.name]}
+                    onChange={handleChange}
+                    required={field.required}
+                    className="mt-1 w-full border border-gray-300 p-2 rounded-md focus:outline-orange-600"
+                  >
+                    <option value="" disabled>
+                      Select {field.label.toLowerCase()}
+                    </option>
+                    {field.options?.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    type={field.type}
+                    name={field.name}
+                    value={formData[field.name]}
+                    onChange={handleChange}
+                    placeholder={`Enter ${field.label.toLowerCase()}`}
+                    required={field.required}
+                    className="mt-1 w-full border border-gray-300 p-2 rounded-md focus:outline-orange-600"
+                  />
+                )}
               </div>
             ))}
-            <div>
+            <div className="md:col-span-2">
               <Label.Root className="block text-gray-700 font-medium">
                 Image URL
               </Label.Root>
@@ -128,7 +152,7 @@ export default function AddOrUpdateBook({
                 className="mt-1 w-full border border-gray-300 p-2 rounded-md focus:outline-orange-600"
               />
             </div>
-            <div>
+            <div className="md:col-span-2">
               <Label.Root className="block text-gray-700 font-medium">
                 Description
               </Label.Root>
@@ -141,19 +165,21 @@ export default function AddOrUpdateBook({
                 className="mt-1 w-full border border-gray-300 p-2 rounded-md focus:outline-orange-600"
               ></textarea>
             </div>
-            <Button
-              type="submit"
-              color="orange"
-              variant="soft"
-              disabled={loading}
-            >
-              {loading ? <Spinner /> : isUpdate ? "Update Book" : "Add Book"}
-            </Button>
-            <Dialog.Close>
-              <Button variant="soft" color="gray">
-                Cancel
+            <div className="md:col-span-2 flex justify-end gap-4">
+              <Button
+                type="submit"
+                color="orange"
+                variant="soft"
+                disabled={loading}
+              >
+                {loading ? <Spinner /> : isUpdate ? "Update Book" : "Add Book"}
               </Button>
-            </Dialog.Close>
+              <Dialog.Close>
+                <Button variant="soft" color="gray">
+                  Cancel
+                </Button>
+              </Dialog.Close>
+            </div>
           </form>
         </Dialog.Content>
       </Dialog.Portal>

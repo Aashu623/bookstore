@@ -59,33 +59,43 @@ export default function Navbar() {
             className="bg-white shadow-lg rounded-md p-4 w-56"
           >
             <div className="flex flex-col gap-4">
-              <Link href="/" className="text-gray-700 hover:text-orange-600">
-                Home
-              </Link>
-              <Link
-                href="/books"
-                className="text-gray-700 hover:text-orange-600"
-              >
-                Books
-              </Link>
-              <Link
-                href="/track-order"
-                className="text-gray-700 hover:text-orange-600"
-              >
-                Track Order
-              </Link>
-              <Link
-                href="/contact"
-                className="text-gray-700 hover:text-orange-600"
-              >
-                Contact
-              </Link>
-              <Link
-                href="/cart"
-                className="flex items-center gap-2 text-gray-700 hover:text-orange-600"
-              >
-                <FaCartPlus /> Cart
-              </Link>
+              <Popover.Close>
+                <Link href="/" className="text-gray-700 hover:text-orange-600">
+                  Home
+                </Link>
+              </Popover.Close>
+              <Popover.Close>
+                <Link
+                  href="/books"
+                  className="text-gray-700 hover:text-orange-600"
+                >
+                  Books
+                </Link>
+              </Popover.Close>
+              <Popover.Close>
+                <Link
+                  href="/track-order"
+                  className="text-gray-700 hover:text-orange-600"
+                >
+                  Track Order
+                </Link>
+              </Popover.Close>
+              <Popover.Close>
+                <Link
+                  href="/contact"
+                  className="text-gray-700 hover:text-orange-600"
+                >
+                  Contact
+                </Link>
+              </Popover.Close>
+              <Popover.Close>
+                <Link
+                  href="/cart"
+                  className="flex items-center gap-2 text-gray-700 hover:text-orange-600"
+                >
+                  <FaCartPlus /> Cart
+                </Link>
+              </Popover.Close>
             </div>
             <Popover.Arrow className="fill-white" />
           </Popover.Content>

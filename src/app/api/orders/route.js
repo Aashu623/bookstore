@@ -19,7 +19,6 @@ export const POST = async (req) => {
 
     // Parse the incoming request body
     const { orderNumber, user, books, utrNumber, totalAmount } = await req.json();
-
     // Create a new order in the database
     const newOrder = new Order({
       orderNumber,

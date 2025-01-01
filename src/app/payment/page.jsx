@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 export default function PaymentPage() {
   const [billingBooks, setBillingBooks] = useState([]);
@@ -23,10 +23,17 @@ export default function PaymentPage() {
     const orderData = {
       orderNumber,
       books: billingBooks?.map((book) => book._id),
-      user: userDetails,
+      user: {
+        name: userDetails.name,
+        email: userDetails.email,
+        phone: userDetails.phone,
+        address: userDetails.address,
+      },
       utrNumber,
-      totalAmount,
+      totalAmount:billingBooks.reduce((acc, book) => acc + book.price * book.quantity, 0) +
+      deliveryCharges,
     };
+    console.log(orderData);
 
     try {
       const res = await fetch("/api/orders", {
@@ -34,7 +41,7 @@ export default function PaymentPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(orderData), // Send the order data in the request body
+        body: JSON.stringify(orderData),
       });
 
       if (!res.ok) {

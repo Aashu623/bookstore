@@ -85,7 +85,7 @@ const Footer = () => {
 
         {/* Copyright Notice */}
         <Text size="sm" color="gray-400" className="text-center mt-4">
-          &copy; {new Date().getFullYear()} BookShelf. All Rights Reserved.
+          &copy; {new Date().getFullYear()} Dream Achievers group. All Rights Reserved.
         </Text>
       </Flex>
     </Card>

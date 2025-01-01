@@ -105,7 +105,7 @@ export default function BooksPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
       {/* Sidebar (Filter) */}
       <div className="w-full sm:w-64 p-4 bg-white shadow-md h-full">
         <h2 className="text-2xl font-semibold mb-4">Filters</h2>
@@ -207,16 +207,7 @@ export default function BooksPage() {
           </div>
           <Separator />
         </Flex>
-        <Grid
-          gap="6"
-          columns={{
-            xs: "2",
-            sm: "3",
-            md: "4",
-            lg: "5",
-            xl: "6",
-          }}
-        >
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {loading &&
             Array.from({ length: 10 }, (_, index) => (
               <BookCardSkeleton key={index} />
@@ -224,7 +215,7 @@ export default function BooksPage() {
           {books?.map((book) => (
             <BookCard key={book?._id} book={book} isAdmin={false} />
           ))}
-        </Grid>
+        </div>
 
         {books?.length === 0 ? (
           <div className="text-center mt-6">

@@ -6,7 +6,7 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { GrSecure } from "react-icons/gr";
 import { FaThumbsUp } from "react-icons/fa6";
 import { SiTicktick } from "react-icons/si";
-import { Button, Grid } from "@radix-ui/themes";
+import { Button } from "@radix-ui/themes";
 import BookCard from "@/components/BookCard";
 import axios from "axios";
 
@@ -83,7 +83,7 @@ export default function Home() {
       {/* Categories Section */}
       <section className="p-10 text-center">
         <h2 className="text-3xl font-bold mb-6 text-gray-800">View All Categories</h2>
-        <Grid gap="6" columns={{ xs: "2", sm: "3", md: "4", lg: "5", xl: "6" }}>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {books?.map((book: Book) => (
             <BookCard
               key={book._id}
@@ -91,7 +91,7 @@ export default function Home() {
               isAdmin={false}
             />
           ))}
-        </Grid>
+        </div>
       </section>
 
       {/* Featured Books */}
@@ -99,7 +99,7 @@ export default function Home() {
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Featured Books
         </h2>
-        <Grid gap="6" columns={{ xs: "2", sm: "3", md: "4", lg: "5", xl: "6" }}>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {books.reverse().map((book: Book) => (
             <BookCard
               key={book._id}
@@ -107,7 +107,7 @@ export default function Home() {
               isAdmin={false}
             />
           ))}
-        </Grid>
+        </div>
       </section>
     </div>
   );

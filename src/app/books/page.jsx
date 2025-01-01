@@ -13,6 +13,8 @@ import {
 import BookCard from "@/components/BookCard";
 import BookCardSkeleton from "@/components/BookCardSkeleton";
 import axios from "axios";
+import * as Popover from "@radix-ui/react-popover";
+import { RxMixerHorizontal } from "react-icons/rx";
 
 export default function BooksPage() {
   const [books, setBooks] = useState([]);
@@ -107,7 +109,7 @@ export default function BooksPage() {
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
       {/* Sidebar (Filter) */}
-      <div className="w-full sm:w-64 p-4 bg-white shadow-md h-full">
+      <div className="hidden md:flex flex-col w-full sm:w-64 p-4 bg-white shadow-md h-full">
         <h2 className="text-2xl font-semibold mb-4">Filters</h2>
 
         <div className="flex justify-between md:flex-col">
@@ -181,33 +183,125 @@ export default function BooksPage() {
 
       {/* Main Content */}
       <div className="flex-1 p-8">
-        <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
+        <h1 className="text-4xl font-bold text-center text-gray-800 mb-2 md:mb-4">
           All Books
         </h1>
-        <Flex direction="column" gap="4" className="mb-6">
-          <div className="relative w-full">
+        <Flex direction="column" gap="4" className="mb-2">
+          <div className="relative w-full flex gap-2">
+            <div className="md:hidden">
+              <Popover.Root>
+                <Popover.Trigger asChild>
+                  <Button aria-label="Menu" variant="soft" color="orange">
+                    <RxMixerHorizontal />
+                  </Button>
+                </Popover.Trigger>
+                <Popover.Portal>
+                  <Popover.Content
+                    sideOffset={8}
+                    align="center"
+                    className="ml-5"
+                  >
+                    <div className="w-full sm:w-64 p-4 bg-white shadow-md h-full">
+                      <h2 className="text-2xl font-semibold mb-4">Filters</h2>
+
+                      <div className="flex justify-between">
+                        <div className="mb-1 md:mb-4">
+                          <h3 className="font-medium mb-2">Categories</h3>
+                          {[
+                            "Novel",
+                            "MPPSC",
+                            "SSC",
+                            "UGCNET",
+                            "Stationary",
+                            "Other",
+                          ].map((category) => (
+                            <label key={category} className="block">
+                              <input
+                                type="checkbox"
+                                className="mr-2"
+                                onChange={(e) =>
+                                  handleFilterChange(
+                                    "categories",
+                                    e.target.checked
+                                      ? [...filters.categories, category]
+                                      : filters.categories.filter(
+                                          (c) => c !== category
+                                        )
+                                  )
+                                }
+                              />
+                              {category}
+                            </label>
+                          ))}
+                        </div>
+
+                        <div className="mb-1 md:mb-4">
+                          <h3 className="font-medium mb-2">Language</h3>
+                          {["English", "Hindi"].map((lang) => (
+                            <label key={lang} className="block mb-2">
+                              <input
+                                type="checkbox"
+                                className="mr-2"
+                                onChange={(e) =>
+                                  handleFilterChange(
+                                    "language",
+                                    e.target.checked
+                                      ? [...filters.language, lang]
+                                      : filters.language.filter(
+                                          (l) => l !== lang
+                                        )
+                                  )
+                                }
+                              />
+                              {lang}
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="mb-1 md:mb-4">
+                        <h3 className="font-medium">Price Range</h3>
+                        <input
+                          type="range"
+                          min="0"
+                          max="1000"
+                          value={filters.priceRange[1]}
+                          className="w-full"
+                          onChange={(e) =>
+                            handleFilterChange("priceRange", [
+                              0,
+                              parseInt(e.target.value),
+                            ])
+                          }
+                        />
+                        <p className="text-sm">
+                          Up to ₹{filters.priceRange[1]}
+                        </p>
+                      </div>
+
+                      <button
+                        className="w-full py-2 bg-blue-500 text-white font-semibold rounded"
+                        onClick={applyFilters}
+                      >
+                        Apply Filters
+                      </button>
+                    </div>
+                    <Popover.Arrow className="fill-white" />
+                  </Popover.Content>
+                </Popover.Portal>
+              </Popover.Root>
+            </div>
             <input
               type="text"
               placeholder="Search for books..."
               value={searchQuery}
               onChange={handleSearchChange}
-              className="w-full pl-10 p-2 border rounded"
+              className="w-full pl-10 px-2 md:py-1 border rounded"
             />
-            <svg
-              className="absolute top-1/2 left-3 -translate-y-1/2 w-5 h-5 text-gray-400"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
           </div>
           <Separator />
         </Flex>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {loading &&
             Array.from({ length: 10 }, (_, index) => (
               <BookCardSkeleton key={index} />

@@ -6,7 +6,7 @@ import { Button } from "@radix-ui/themes";
 
 export default function Navbar() {
   return (
-    <nav className="bg-white shadow-md p-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+    <nav className="bg-white shadow-md p-4 flex sm:flex-row justify-between items-center gap-4">
       {/* Brand Logo */}
       <div className="text-2xl font-bold text-orange-600">
         <Link href="/">Dreamstore</Link>

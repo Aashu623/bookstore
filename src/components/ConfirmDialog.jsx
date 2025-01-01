@@ -27,7 +27,7 @@ const ConfirmDialog = ({ open, onClose, onConfirm }) => {
               </Button>
             </AlertDialog.Cancel>
             <AlertDialog.Action>
-              <Button variant="solid" color="red" onClick={onConfirm}>
+              <Button variant="soft" color="red" onClick={onConfirm}>
                 Confirm
               </Button>
             </AlertDialog.Action>

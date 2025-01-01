@@ -23,13 +23,11 @@ export default function AddOrUpdateBook({
 
   const [loading, setLoading] = useState(false);
 
-  // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -71,7 +69,7 @@ export default function AddOrUpdateBook({
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <Button className="bg-orange-600 text-white py-2 px-4 rounded hover:bg-orange-700">
+        <Button variant="soft" color="yellow">
           {isUpdate ? "Edit" : "Add Book"}
         </Button>
       </Dialog.Trigger>

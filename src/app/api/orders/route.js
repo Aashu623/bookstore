@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import Order from "@/models/Order";
 import connectToDatabase from "@/lib/mongodb";
 
-const generateOrderNumber = () => Math.floor(10000 + Math.random() * 90000);
 
 export const GET = async () => {
   try {
@@ -13,23 +12,29 @@ export const GET = async () => {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }
+
 export const POST = async (req) => {
   try {
-    await connectToDatabase();
+    await connectToDatabase(); // Ensure you are connected to the database
 
-    const { user, book } = await req.json();
+    // Parse the incoming request body
+    const { orderNumber, user, books, utrNumber, totalAmount } = await req.json();
 
-    const orderNumber = generateOrderNumber().toString();
-
+    // Create a new order in the database
     const newOrder = new Order({
       orderNumber,
       user,
-      book,
+      utrNumber,
+      books,
+      totalAmount,
+      status: "Pending", // Set status as Pending initially
     });
 
     await newOrder.save();
+
     return NextResponse.json(newOrder, { status: 201 });
-  } catch (error ) {
+  } catch (error) {
+    console.error("Error creating order:", error);
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 };

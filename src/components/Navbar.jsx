@@ -2,6 +2,7 @@ import React from "react";
 import { FaCartPlus } from "react-icons/fa";
 import * as Popover from "@radix-ui/react-popover";
 import Link from "next/link";
+import { Button } from "@radix-ui/themes";
 
 export default function Navbar() {
   return (
@@ -35,18 +36,21 @@ export default function Navbar() {
         <Link href="/contact" className="text-gray-700 hover:text-orange-600">
           Contact
         </Link>
-        <FaCartPlus className="text-gray-700 hover:text-orange-600 cursor-pointer" />
+        <Link href="/cart" className="text-gray-700 hover:text-orange-600">
+          <FaCartPlus className="text-gray-700 hover:text-orange-600 cursor-pointer" />
+        </Link>
       </div>
 
-      {/* Mobile Navigation Menu */}
       <Popover.Root>
         <Popover.Trigger asChild>
-          <button
+          <Button
             aria-label="Menu"
+            variant="soft"
+            color="orange"
             className="sm:hidden p-2 rounded-md text-gray-700 hover:text-orange-600 text-lg"
           >
             ☰
-          </button>
+          </Button>
         </Popover.Trigger>
         <Popover.Portal>
           <Popover.Content

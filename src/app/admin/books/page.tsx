@@ -4,6 +4,7 @@ import BookCard from '@/components/BookCard';
 import { Flex, Grid, Separator, Text } from '@radix-ui/themes';
 import { useEffect, useState } from 'react';
 import AddOrUpdateBook from '@/components/AddOrUpdateBook';
+import axios from 'axios';
 interface Book {
     _id: string;
     title: string;
@@ -18,9 +19,8 @@ export default function AdminPage() {
     const [books, setBooks] = useState<Book[]>([]);
 
     const fetchBooks = async () => {
-        const response = await fetch('/api/books');
-        const data = await response.json();
-        setBooks(data);
+        const response = await axios.get('/api/books');
+        setBooks(response?.data?.books);
     };
 
     useEffect(() => {
@@ -31,7 +31,7 @@ export default function AdminPage() {
         <section className="py-10 text-center">
             <Text size={"3"} weight={"bold"} className="mb-6 text-gray-800">Admin - Manage Books</Text>
             <Grid columns={{ xs: "2", sm: "3", md: "4", lg: "5", xl: "6" }} gap={"6"} p={"6"}>
-                {books.map((book) => (
+                {books?.map((book) => (
                     <Flex direction="column" key={book._id}>
                         <BookCard
                             key={book._id}

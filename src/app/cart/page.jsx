@@ -1,92 +1,244 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { Button, Flex } from '@radix-ui/themes';
-
+import { useEffect, useState } from "react";
+import { Button, Flex } from "@radix-ui/themes";
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [userDetails, setUserDetails] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    building: "",
+    street: "",
+    area: "",
+    city: "",
+    pincode: "",
+  });
+  const router = useRouter();
 
-  // Fetch cart items from localStorage
   useEffect(() => {
-    const storedCart = localStorage.getItem('cart');
-    if (storedCart) {
-      const parsedCart = JSON.parse(storedCart);
-      setCartItems(parsedCart);
-      calculateTotal(parsedCart);
+    try {
+      const storedCart = localStorage.getItem("cart");
+      if (storedCart) {
+        const parsedCart = JSON.parse(storedCart);
+        setCartItems(parsedCart);
+        setSelectedItems(parsedCart.map((item) => item._id));
+      }
+    } catch (error) {
+      console.error("Failed to fetch cart from localStorage:", error);
     }
   }, []);
 
-  // Calculate the total price of the cart
-  const calculateTotal = (items) => {
-    const total = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  useEffect(() => {
+    const selectedBooks = cartItems.filter((item) =>
+      selectedItems.includes(item._id)
+    );
+    const total = selectedBooks.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    );
     setTotalPrice(total);
+  }, [selectedItems, cartItems]);
+
+  const handleCheckboxChange = (id) => {
+    setSelectedItems((prev) =>
+      prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]
+    );
   };
 
-  // Handle checkout action
-  const handleCheckout = () => {
-    // Implement your checkout logic here
-    console.log('Proceeding to checkout with the following items:', cartItems);
-  };
-
-  // Handle removing an item from the cart
   const handleRemoveFromCart = (id) => {
-    const updatedCart = cartItems.filter(item => item._id !== id);
+    const updatedCart = cartItems.filter((item) => item._id !== id);
     setCartItems(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
-    calculateTotal(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    setSelectedItems(selectedItems.filter((itemId) => itemId !== id));
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUserDetails((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    const address = `${userDetails.building}, ${userDetails.street}, ${userDetails.area}, ${userDetails.city}, ${userDetails.pincode}`;
+    const updatedUserDetails = { ...userDetails, address };
+
+    localStorage.setItem("userDetails", JSON.stringify(updatedUserDetails));
+    const billingBooks = cartItems.filter((item) =>
+      selectedItems.includes(item._id)
+    );
+    localStorage.setItem("billingBooks", JSON.stringify(billingBooks));
+    router.push("/payment");
   };
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
-      <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">Your Cart</h1>
-
-      {/* Cart Items */}
-      <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {cartItems.length === 0 ? (
-          <p className="text-center text-gray-500">Your cart is empty</p>
-        ) : (
-          cartItems.map((book) => (
-            <div key={book._id} className="max-w-sm bg-white shadow-md rounded-lg overflow-hidden border border-gray-200 flex flex-col items-center">
-              {/* Book Image */}
-              <img src={book.image} alt={book.title} className="h-48 object-contain" />
-
-              {/* Book Details */}
-              <div className="p-4">
-                <h2 className="text-lg font-semibold text-gray-800">{book.title}</h2>
-                <p className="text-sm text-gray-500">by {book.author}</p>
-                <p className="mt-2 text-lg font-bold text-gray-800">${book.price}</p>
-                <p className="mt-1 text-sm text-gray-500">Quantity: {book.quantity}</p>
-
-                {/* Remove from Cart Button */}
+    <div className="p-8 bg-gray-50 min-h-screen flex flex-col md:flex-row gap-6">
+      <div className="w-full md:w-2/3">
+        <h1 className="text-3xl font-bold text-gray-800 mb-4">Your Cart</h1>
+        <div className="grid gap-4">
+          {cartItems.length === 0 ? (
+            <p className="text-center text-gray-500">Your cart is empty</p>
+          ) : (
+            cartItems.map((book) => (
+              <div
+                key={book._id}
+                className="bg-white shadow-md rounded-lg p-4 flex items-center gap-4"
+              >
+                <input
+                  type="checkbox"
+                  checked={selectedItems.includes(book._id)}
+                  onChange={() => handleCheckboxChange(book._id)}
+                />
+                <img
+                  src={book.image}
+                  alt={book.title}
+                  className="h-24 w-16 object-cover"
+                />
+                <div className="flex-grow">
+                  <h2 className="text-lg font-semibold">{book.title}</h2>
+                  <p className="text-sm text-gray-500">by {book.author}</p>
+                  <p className="text-gray-800 font-bold">${book.price}</p>
+                  <p className="text-sm text-gray-500">
+                    Quantity: {book.quantity}
+                  </p>
+                </div>
                 <Button
-                  variant="outline"
-                  className="mt-4 px-4 py-2 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-600"
+                  variant="soft"
+                  color="red"
                   onClick={() => handleRemoveFromCart(book._id)}
                 >
-                  Remove from Cart
+                  Remove
                 </Button>
               </div>
-            </div>
-          ))
-        )}
+            ))
+          )}
+        </div>
       </div>
 
-      {/* Cart Summary */}
-      <Flex direction="column" className="mt-8 p-6 bg-white shadow-md rounded-lg border border-gray-200">
-        <h2 className="text-2xl font-bold text-gray-800">Cart Summary</h2>
-        <p className="mt-4 text-lg font-semibold text-gray-800">Total: ${totalPrice.toFixed(2)}</p>
-
-        {/* Checkout Button */}
-        <Button
-          className="mt-6 w-full bg-orange-600 text-white py-2 px-4 rounded hover:bg-orange-700"
-          onClick={handleCheckout}
-          disabled={cartItems.length === 0}
-        >
-          Checkout
-        </Button>
-      </Flex>
+      <div className="w-full md:w-1/3 bg-white shadow-md rounded-lg p-6">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">User Details</h2>
+        <form onSubmit={handleFormSubmit} className="flex flex-col gap-2">
+          <div>
+            <label htmlFor="name" className="block ">
+              Name
+            </label>
+            <input
+              id="name"
+              name="name"
+              value={userDetails.name}
+              onChange={handleInputChange}
+              required
+              className="w-full border rounded px-3 py-1"
+            />
+          </div>
+          <div>
+            <label htmlFor="email" className="block ">
+              Email
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              value={userDetails.email}
+              onChange={handleInputChange}
+              required
+              className="w-full border rounded px-3 py-1"
+            />
+          </div>
+          <div>
+            <label htmlFor="phone" className="block ">
+              phone
+            </label>
+            <input
+              id="phone"
+              name="phone"
+              type="phone"
+              value={userDetails.phone}
+              onChange={handleInputChange}
+              required
+              className="w-full border rounded px-3 py-1"
+            />
+          </div>
+          <div>
+            <label htmlFor="building" className="block ">
+              Building/Flat
+            </label>
+            <input
+              id="building"
+              name="building"
+              value={userDetails.building}
+              onChange={handleInputChange}
+              required
+              className="w-full border rounded px-3 py-1"
+            />
+          </div>
+          <div>
+            <label htmlFor="street" className="block ">
+              Street/Colony
+            </label>
+            <input
+              id="street"
+              name="street"
+              value={userDetails.street}
+              onChange={handleInputChange}
+              required
+              className="w-full border rounded px-3 py-1"
+            />
+          </div>
+          <div>
+            <label htmlFor="area" className="block ">
+              Area Nearby
+            </label>
+            <input
+              id="area"
+              name="area"
+              value={userDetails.area}
+              onChange={handleInputChange}
+              required
+              className="w-full border rounded px-3 py-1"
+            />
+          </div>
+          <div>
+            <label htmlFor="city" className="block ">
+              City
+            </label>
+            <input
+              id="city"
+              name="city"
+              value={userDetails.city}
+              onChange={handleInputChange}
+              required
+              className="w-full border rounded px-3 py-1"
+            />
+          </div>
+          <div>
+            <label htmlFor="pincode" className="block ">
+              Pincode
+            </label>
+            <input
+              id="pincode"
+              name="pincode"
+              value={userDetails.pincode}
+              onChange={handleInputChange}
+              required
+              className="w-full border rounded px-3 py-1"
+            />
+          </div>
+          <p className="mt-2 text-lg font-bold">
+            Total: ${totalPrice.toFixed(2)}
+          </p>
+          <Button
+            className="mt-4 bg-orange-600 text-white hover:bg-orange-700"
+            type="submit"
+          >
+            Proceed to Payment
+          </Button>
+        </form>
+      </div>
     </div>
   );
 }

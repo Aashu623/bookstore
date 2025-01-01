@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { Card, Text, Flex, Box, Button } from "@radix-ui/themes";
 import { toast } from "react-hot-toast";
 import OrderCard from "@/components/OrderCard";
@@ -8,8 +8,7 @@ const TrackOrderPage = () => {
   const [enteredOrderNumber, setEnteredOrderNumber] = useState("");
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  // Fetch order details based on the entered order number
+  const { orderNumber } = useRouter().query;
   const fetchOrder = async (orderNumber) => {
     setLoading(true);
     const response = await fetch(`/api/orders/${orderNumber}`);
@@ -50,7 +49,7 @@ const TrackOrderPage = () => {
               onChange={handleOrderNumberChange}
               className="w-full mb-4 p-2 border border-gray-300 rounded-md"
             />
-            <Button type="submit" variant="primary" className="w-full">
+            <Button type="submit" variant="soft" color="orange" className="w-full">
               Track Order
             </Button>
           </form>

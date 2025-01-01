@@ -8,6 +8,7 @@ import { FaThumbsUp } from "react-icons/fa6";
 import { SiTicktick } from "react-icons/si";
 import { Button, Grid } from "@radix-ui/themes";
 import BookCard from "@/components/BookCard";
+import axios from "axios";
 
 
 
@@ -25,9 +26,8 @@ export default function Home() {
 
   useEffect(() => {
     const fetchBooks = async () => {
-      const response = await fetch('/api/books');
-      const data = await response.json();
-      setBooks(data);
+      const response = await axios.get('/api/books');
+      setBooks(response?.data?.books);
     };
     fetchBooks();
   }, []);
@@ -81,10 +81,10 @@ export default function Home() {
       </section>
 
       {/* Categories Section */}
-      <section className="py-10 text-center">
+      <section className="p-10 text-center">
         <h2 className="text-3xl font-bold mb-6 text-gray-800">View All Categories</h2>
         <Grid gap="6" columns={{ xs: "2", sm: "3", md: "4", lg: "5", xl: "6" }}>
-          {books.map((book: Book) => (
+          {books?.map((book: Book) => (
             <BookCard
               key={book._id}
               book={book}
@@ -95,7 +95,7 @@ export default function Home() {
       </section>
 
       {/* Featured Books */}
-      <section className="py-10 bg-gray-50">
+      <section className="p-10 bg-gray-50">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Featured Books
         </h2>

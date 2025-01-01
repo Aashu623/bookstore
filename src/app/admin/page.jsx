@@ -33,7 +33,7 @@ const AdminPanel = () => {
       >
         <Button
           size="lg"
-          variant="solid"
+          variant="soft"
           color="blue"
           className="w-full"
           as="div"
@@ -43,7 +43,7 @@ const AdminPanel = () => {
         </Button>
         <Button
           size="lg"
-          variant="solid"
+          variant="soft"
           color="green"
           className="w-full"
           as="div"

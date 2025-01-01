@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import connectToDatabase from "@/lib/mongodb";
 import { Book } from "@/models/Book";
 
-export async function GET(req: Request) {
+export async function GET(req) {
   try {
     const id = req.url.split("/").reverse()[0];
     await connectToDatabase();
@@ -19,7 +19,7 @@ export async function GET(req: Request) {
     );
   }
 }
-export async function PUT(req: Request) {
+export async function PUT(req) {
   try {
     const id = req.url.split("/").reverse()[0];
     const data = await req.json();
@@ -48,7 +48,7 @@ export async function PUT(req: Request) {
   }
 }
 
-export async function DELETE(req: Request) {
+export async function DELETE(req) {
   try {
     const id = req.url.split("/").reverse()[0];
     if (!id) {

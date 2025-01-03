@@ -1,5 +1,5 @@
 "use client";
-
+import { FaCartPlus } from "react-icons/fa";
 import React from "react";
 import { Flex, Text, Button, Box, Card } from "@radix-ui/themes";
 import AddOrUpdateBook from "@/components/AddOrUpdateBook";
@@ -44,7 +44,7 @@ export default function BookCard({ book, isAdmin = false }) {
         />
       </Box>
       <Flex direction="column" align="center" className="mt-4 w-full">
-        <Text size="3" weight="bold" className="max-w-48 truncate">
+        <Text size="3" weight="bold" className="max-w-48 text-center truncate" wrap={"wrap"}>
           {book.title}
         </Text>
         <Text size="2" color="gray">
@@ -80,7 +80,7 @@ export default function BookCard({ book, isAdmin = false }) {
                 Buy
               </Button>
               <Button variant="soft" color="orange" onClick={handleAddToCart}>
-                Add to Cart
+                <FaCartPlus />
               </Button>
             </>
           )}

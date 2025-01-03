@@ -22,7 +22,9 @@ export default function PaymentPage() {
 
     const orderData = {
       orderNumber,
-      books: billingBooks?.map((book) => book._id),
+      books: billingBooks?.map((book) => {
+        return { bookId: book._id, quantity: book.quantity };
+      }),
       user: {
         name: userDetails.name,
         email: userDetails.email,
@@ -30,8 +32,11 @@ export default function PaymentPage() {
         address: userDetails.address,
       },
       utrNumber,
-      totalAmount:billingBooks.reduce((acc, book) => acc + book.price * book.quantity, 0) +
-      deliveryCharges,
+      totalAmount:
+        billingBooks.reduce(
+          (acc, book) => acc + book.price * book.quantity,
+          0
+        ) + deliveryCharges,
     };
     console.log(orderData);
 

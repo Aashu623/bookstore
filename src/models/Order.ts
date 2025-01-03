@@ -3,7 +3,12 @@ import { Schema, model, models } from "mongoose";
 const orderSchema = new Schema(
   {
     orderNumber: { type: String, unique: true, required: true },
-    books: [{ type: Schema.Types.ObjectId, ref: "Book", required: true }],
+    books: [
+      {
+        bookId: { type: Schema.Types.ObjectId, ref: "Book", required: true },
+        quantity: { type: Number, required: true },
+      },
+    ],
     user: {
       name: { type: String, required: true },
       email: { type: String, required: true, match: /.+\@.+\..+/ },
@@ -13,7 +18,7 @@ const orderSchema = new Schema(
     utrNumber: { type: String, required: true },
     status: {
       type: String,
-      enum: ["Pending", "Processing", "Completed", "Cancelled"],
+      enum: ["Pending", "Unverified", "Processing", "Completed", "Cancelled"],
       default: "Pending",
     },
     totalAmount: { type: Number, required: true },

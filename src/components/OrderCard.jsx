@@ -9,6 +9,7 @@ const OrderCard = ({
   onDeleteOrder,
   isAdmin = false,
 }) => {
+  console.log(order);
   return (
     <Flex
       direction={"column"}
@@ -27,12 +28,6 @@ const OrderCard = ({
           >
             {order.status}
           </Text>
-        </Text>
-        <Text size="md" className="mt-2">
-          Book: {order.book.title} by {order.book.author}
-        </Text>
-        <Text size="md" className="mt-2">
-          Price: Rs{" "}{order.book.price}
         </Text>
       </Flex>
 
